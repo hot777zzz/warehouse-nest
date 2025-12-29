@@ -5,7 +5,7 @@
 
   <div class="login">
     <el-form ref="loginRef" :model="loginForm.model" :rules="loginForm.rules" class="login-form">
-      <h3 class="title">nest-admin后台管理系统</h3>
+      <h3 class="title">仓库物资管理系统</h3>
       <el-form-item prop="userName">
         <el-input v-model.trim="loginForm.model.userName" maxlength="10" type="text" size="large" auto-complete="off" placeholder="账号">
           <template #prefix>
@@ -44,7 +44,7 @@
     </el-form>
 
     <div class="el-login-footer">
-      <span>Copyright © 2018-2024 nest-admin All Rights Reserved.</span>
+      <span>Copyright © 2024 仓库物资管理系统 All Rights Reserved.</span>
     </div>
   </div>
 </template>

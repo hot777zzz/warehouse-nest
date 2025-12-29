@@ -35,7 +35,7 @@ export class MainService {
     loginLog.status = loginRes.code === SUCCESS_CODE ? '0' : '1';
     loginLog.msg = loginRes.msg;
 
-    if (loginRes.data.userName) {
+    if (loginRes.data && loginRes.data.userName) {
       loginLog.userName = loginRes.data.userName;
       delete loginRes.data.userName;
     }
@@ -78,7 +78,52 @@ export class MainService {
    * 获取路由菜单
    */
   async getRouters(userId: number) {
-    const menus = await this.menuService.getMenuListByUserId(userId);
-    return ResultData.ok(menus);
+    const allMenus = await this.menuService.getMenuListByUserId(userId);
+
+    // 查找仓库管理菜单
+    const warehouseMenu = allMenus.find((menu) => menu.path === '/warehouse');
+
+    if (warehouseMenu && warehouseMenu.children) {
+      // 提取仓库管理的子菜单作为顶级菜单
+      const topLevelMenus = [];
+
+      // 添加首页作为顶级菜单
+      const homeMenu = allMenus.find((menu) => menu.path === '/' || (menu.meta && menu.meta.title === '首页'));
+      if (homeMenu) {
+        topLevelMenus.push(homeMenu);
+      }
+
+      // 将仓库管理的子菜单作为顶级菜单添加，并修改路径为顶级路径
+      for (const child of warehouseMenu.children) {
+        // 确保子菜单显示为顶级菜单项
+        const topLevelChild = { ...child };
+        topLevelChild.parentId = 0;
+
+        // 修改路径为顶级路径，去掉 '/warehouse' 前缀
+        if (topLevelChild.path.startsWith('/warehouse/')) {
+          topLevelChild.path = `/${topLevelChild.path.substring(11)}`; // 移除 '/warehouse/' 前缀
+        } else if (topLevelChild.path === '/warehouse') {
+          topLevelChild.path = '/'; // 如果路径是 '/warehouse'，则改为 '/'
+        }
+
+        // 确保组件路径正确
+        if (topLevelChild.component && !topLevelChild.component.startsWith('warehouse/')) {
+          topLevelChild.component = `warehouse/${topLevelChild.component}`;
+        }
+
+        topLevelMenus.push(topLevelChild);
+      }
+
+      return ResultData.ok(topLevelMenus);
+    } else {
+      // 如果没有仓库管理菜单，至少返回首页
+      const homeMenu = allMenus.find((menu) => menu.path === '/' || (menu.meta && menu.meta.title === '首页'));
+      if (homeMenu) {
+        return ResultData.ok([homeMenu]);
+      }
+    }
+
+    // 如果什么都找不到，返回空数组
+    return ResultData.ok([]);
   }
 }

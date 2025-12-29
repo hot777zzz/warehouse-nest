@@ -320,6 +320,11 @@ export class UserService {
       },
       select: ['userId', 'password'],
     });
+    
+    if (!data) {
+      return ResultData.fail(500, `帐号或密码错误`);
+    }
+    
     this.clearCacheByUserId(data.userId);
 
     if (!(data && bcrypt.compareSync(user.password, data.password))) {

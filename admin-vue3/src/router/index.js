@@ -83,6 +83,46 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  // 仓库管理模块路由 - 将由后端动态返回
+  {
+    path: '/warehouse',
+    component: Layout,
+    redirect: '/warehouse/dashboard',
+    name: 'Warehouse',
+    meta: { title: '仓库管理', icon: 'example' },
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/warehouse/dashboard/index'),
+        name: 'WarehouseDashboard',
+        meta: { title: '数据看板', icon: 'chart' }
+      },
+      {
+        path: 'material',
+        component: () => import('@/views/warehouse/material/index'),
+        name: 'Material',
+        meta: { title: '物资管理', icon: 'list' }
+      },
+      {
+        path: 'category',
+        component: () => import('@/views/warehouse/category/index'),
+        name: 'Category',
+        meta: { title: '分类管理', icon: 'tree' }
+      },
+      {
+        path: 'supplier',
+        component: () => import('@/views/warehouse/supplier/index'),
+        name: 'Supplier',
+        meta: { title: '供应商管理', icon: 'peoples' }
+      },
+      {
+        path: 'stock',
+        component: () => import('@/views/warehouse/stock/index'),
+        name: 'Stock',
+        meta: { title: '出入库管理', icon: 'form' }
+      }
+    ]
   }
 ]
 

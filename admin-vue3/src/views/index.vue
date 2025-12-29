@@ -2,49 +2,59 @@
   <div class="app-container home">
     <el-row :gutter="20">
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>nest-admin后台管理框架</h2>
+        <h2>仓库物资管理系统</h2>
         <p>
-          nest-admin管理系统基于Ruoyi框架使用nestjs实现，她可以用于所有的Web应用程序，如网站管理后台，网站会员中心，CMS，CRM，OA等等，当然，您也可以对她进行深度定制，以做出更强系统。所有前端后台代码封装过后十分精简易上手，出错概率低。系统会陆续更新一些实用功能。
+          仓库物资管理系统是一个基于B/S架构的仓库物资管理系统，主要分为用户端和管理员端。
+          系统核心目标是解决当前仓库管理中的低效率、信息不对称等问题。
         </p>
         <p>
           <b>当前版本:</b>
           <span>v{{ version }}</span>
         </p>
         <p>
-          <el-tag type="danger">免费开源</el-tag>
+          <el-tag type="success">管理员端</el-tag>
         </p>
         <p>
-          <el-button type="primary" size="mini" icon="MostlyCloudy" plain @click="goTarget('https://gitee.com/tao-zhi/nest-admin')">访问码云</el-button>
-          <el-button size="mini" icon="HomeFilled" plain @click="goTarget('/docs')">访问文档</el-button>
+          <el-button type="primary" size="mini" icon="Box" plain @click="goTarget('/warehouse/material')">物资管理</el-button>
+          <el-button type="success" size="mini" icon="Tickets" plain @click="goTarget('/warehouse/stock')">出入库管理</el-button>
+          <el-button type="warning" size="mini" icon="DataAnalysis" plain @click="goTarget('/warehouse/dashboard')">数据看板</el-button>
         </p>
       </el-col>
 
       <el-col :sm="24" :lg="12" style="padding-left: 50px">
         <el-row>
           <el-col :span="12">
-            <h2>技术选型</h2>
+            <h2>系统功能</h2>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
-            <h4>后端技术</h4>
+          <el-col :span="8">
+            <h4>权限管理</h4>
             <ul>
-              <li>node</li>
-              <li>nestjs</li>
-              <li>typeorm</li>
-              <li>redis</li>
-              <li>mysql</li>
+              <li>JWT认证登录</li>
+              <li>角色权限区分</li>
+              <li>用户权限管理</li>
+              <li>密码重置</li>
               <li>...</li>
             </ul>
           </el-col>
-          <el-col :span="6">
-            <h4>前端技术</h4>
+          <el-col :span="8">
+            <h4>物资管理</h4>
             <ul>
-              <li>Vue3</li>
-              <li>Element-Plus</li>
-              <li>Axios</li>
-              <li>Sass</li>
-              <li>Quill</li>
+              <li>物资增删改查</li>
+              <li>物资分类维护</li>
+              <li>供应商管理</li>
+              <li>分页搜索</li>
+              <li>...</li>
+            </ul>
+          </el-col>
+          <el-col :span="8">
+            <h4>出入库管理</h4>
+            <ul>
+              <li>入库登记</li>
+              <li>出库登记</li>
+              <li>库存校验</li>
+              <li>历史记录</li>
               <li>...</li>
             </ul>
           </el-col>
@@ -56,18 +66,20 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
           <div slot="header" class="clearfix">
-            <span>联系信息</span>
+            <span>数据可视化</span>
           </div>
           <div class="body">
             <p>
-              <svg-icon icon-class="guide" class-name="icon" />
-              官网：
-              <el-link href="https://nest-admin.dooring.vip/" target="_blank">https://nest-admin.dooring.vip/</el-link>
+              <svg-icon icon-class="chart" class-name="icon" />
+              库存趋势图展示
             </p>
             <p>
-              <svg-icon icon-class="wechat" class-name="icon" />
-              微信：
-              <a href="javascript:;">taozhi10100</a>
+              <svg-icon icon-class="chart" class-name="icon" />
+              物资占比分析
+            </p>
+            <p>
+              <svg-icon icon-class="chart" class-name="icon" />
+              报表导出功能
             </p>
           </div>
         </el-card>
@@ -75,20 +87,20 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
           <div slot="header" class="clearfix">
-            <span>更多优质产品</span>
+            <span>预警功能</span>
           </div>
           <div class="body">
             <p>
-              <el-link href="https://h5dooring.online" target="_blank">H5-Dooring</el-link>
+              <svg-icon icon-class="message" class-name="icon" />
+              库存低于安全阈值告警
             </p>
             <p>
-              <el-link href="https://v6.dooring.vip/" target="_blank">V6-Dooring</el-link>
+              <svg-icon icon-class="message" class-name="icon" />
+              物资过期提醒
             </p>
             <p>
-              <el-link href="https://board.dooring.vip/" target="_blank">创意白板</el-link>
-            </p>
-              <p>
-              <el-link href="https://www.easyapp.site/zh" target="_blank">EsayApp</el-link>
+              <svg-icon icon-class="message" class-name="icon" />
+              异常出入库提醒
             </p>
           </div>
         </el-card>
@@ -96,38 +108,24 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
           <div slot="header" class="clearfix">
-            <span>贡献者</span>
+            <span>系统监控</span>
           </div>
           <div class="body">
             <p>
-              <svg-icon icon-class="github" class-name="icon" />
-              ：
-              <el-link href="https://github.com/a876691666" target="_blank">a876691666</el-link>
+              <svg-icon icon-class="log" class-name="icon" />
+              操作日志审计
             </p>
             <p>
-              <svg-icon icon-class="github" class-name="icon" />
-              ：
-              <el-link href="https://github.com/ExploringTheCodeWorld" target="_blank">ExploringTheCodeWorld</el-link>
+              <svg-icon icon-class="log" class-name="icon" />
+              登录日志记录
             </p>
             <p>
-              <svg-icon icon-class="github" class-name="icon" />
-              ：
-              <el-link href="https://github.com/CrazyStudent13" target="_blank">CrazyStudent13</el-link>
+              <svg-icon icon-class="log" class-name="icon" />
+              系统运行监控
             </p>
           </div>
         </el-card>
       </el-col>
-      <!-- <el-col :xs="24" :sm="24" :md="12" :lg="8">
-				<el-card class="update-log">
-					<div slot="header" class="clearfix">
-						<span>捐赠支持</span>
-					</div>
-					<div class="body">
-						<img src="@/assets/images/pay.png" alt="donate" width="100%" />
-						<span style="display: inline-block; height: 30px; line-height: 30px">你可以请作者喝杯咖啡表示鼓励</span>
-					</div>
-				</el-card>
-			</el-col> -->
     </el-row>
   </div>
 </template>
@@ -136,7 +134,11 @@
 const version = ref('1.0.0')
 
 function goTarget(url) {
-  window.open(url, '__blank')
+  if (url.startsWith('/')) {
+    window.location.href = url
+  } else {
+    window.open(url, '__blank')
+  }
 }
 </script>
 
@@ -148,12 +150,14 @@ function goTarget(url) {
     font-size: 17.5px;
     border-left: 5px solid #eee;
   }
+
   hr {
     margin-top: 20px;
     margin-bottom: 20px;
     border: 0;
     border-top: 1px solid #eee;
   }
+
   .col-item {
     margin-bottom: 20px;
   }
@@ -173,7 +177,7 @@ function goTarget(url) {
   }
 
   h4 {
-    margin-top: 0px;
+    margin-top: 0;
   }
 
   h2 {

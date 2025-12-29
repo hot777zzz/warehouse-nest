@@ -1,18 +1,4 @@
-/*
- Navicat Premium Data Transfer
 
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 80027 (8.0.27)
- Source Host           : localhost:3306
- Source Schema         : nest-admin
-
- Target Server Type    : MySQL
- Target Server Version : 80027 (8.0.27)
- File Encoding         : 65001
-
- Date: 28/02/2025 17:07:11
-*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
