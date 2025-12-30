@@ -2,7 +2,7 @@ import router from './router'
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getToken } from '@/utils/auth'
+import { getToken, setToken } from '@/utils/auth'
 import { isHttp } from '@/utils/validate'
 import { isRelogin } from '@/utils/request'
 import useUserStore from '@/store/modules/user'
@@ -13,8 +13,48 @@ NProgress.configure({ showSpinner: false });
 
 const whiteList = ['/login', '/register'];
 
+// ========== 开发模式：跳过登录 ==========
+const DEV_SKIP_LOGIN = true; // 设为 false 恢复正常登录流程
+
+// 模拟用户信息
+const mockUserInfo = () => {
+  const userStore = useUserStore();
+  userStore.token = 'dev-mock-token';
+  userStore.name = 'admin';
+  userStore.roles = ['admin'];
+  userStore.permissions = ['*:*:*'];
+  setToken('dev-mock-token');
+};
+// ========================================
+
 router.beforeEach((to, from, next) => {
   NProgress.start()
+
+  // 开发模式跳过登录
+  if (DEV_SKIP_LOGIN) {
+    to.meta.title && useSettingsStore().setTitle(to.meta.title)
+    if (to.path === '/login') {
+      next({ path: '/' })
+      NProgress.done()
+      return
+    }
+    if (useUserStore().roles.length === 0) {
+      mockUserInfo()
+      usePermissionStore().generateRoutes().then(accessRoutes => {
+        accessRoutes.forEach(route => {
+          if (!isHttp(route.path)) {
+            router.addRoute(route)
+          }
+        })
+        next({ ...to, replace: true })
+      })
+    } else {
+      next()
+    }
+    return
+  }
+
+  // ========== 以下是原有登录逻辑 ==========
   if (getToken()) {
     to.meta.title && useSettingsStore().setTitle(to.meta.title)
     /* has token*/

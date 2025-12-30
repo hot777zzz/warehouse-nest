@@ -48,7 +48,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: "/:pathMatch(.*)*",
+    path: '/:pathMatch(.*)*',
     component: () => import('@/views/error/404'),
     hidden: true
   },
@@ -57,19 +57,7 @@ export const constantRoutes = [
     component: () => import('@/views/error/401'),
     hidden: true
   },
-  {
-    path: '',
-    component: Layout,
-    redirect: '/index',
-    children: [
-      {
-        path: '/index',
-        component: () => import('@/views/index'),
-        name: 'Index',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
+
   {
     path: '/user',
     component: Layout,
@@ -84,43 +72,122 @@ export const constantRoutes = [
       }
     ]
   },
-  // 仓库管理模块路由 - 将由后端动态返回
+  // 仓库管理 - 数据看板
   {
-    path: '/warehouse',
+    path: '',
     component: Layout,
-    redirect: '/warehouse/dashboard',
-    name: 'Warehouse',
-    meta: { title: '仓库管理', icon: 'example' },
+    // redirect: '/index'
     children: [
       {
-        path: 'dashboard',
+        path: 'index',
         component: () => import('@/views/warehouse/dashboard/index'),
         name: 'WarehouseDashboard',
         meta: { title: '数据看板', icon: 'chart' }
-      },
+      }
+    ]
+  },
+  // 仓库管理 - 物资管理
+  {
+    path: '/warehouse/material',
+    component: Layout,
+    children: [
       {
-        path: 'material',
+        path: '',
         component: () => import('@/views/warehouse/material/index'),
         name: 'Material',
         meta: { title: '物资管理', icon: 'list' }
-      },
+      }
+    ]
+  },
+  // 仓库管理 - 分类管理
+  {
+    path: '/warehouse/category',
+    component: Layout,
+    children: [
       {
-        path: 'category',
+        path: '',
         component: () => import('@/views/warehouse/category/index'),
         name: 'Category',
         meta: { title: '分类管理', icon: 'tree' }
-      },
+      }
+    ]
+  },
+  // 仓库管理 - 供应商管理
+  {
+    path: '/warehouse/supplier',
+    component: Layout,
+    children: [
       {
-        path: 'supplier',
+        path: '',
         component: () => import('@/views/warehouse/supplier/index'),
         name: 'Supplier',
         meta: { title: '供应商管理', icon: 'peoples' }
-      },
+      }
+    ]
+  },
+  // 仓库管理 - 出入库管理
+  {
+    path: '/warehouse/stock',
+    component: Layout,
+    children: [
       {
-        path: 'stock',
+        path: '',
         component: () => import('@/views/warehouse/stock/index'),
         name: 'Stock',
         meta: { title: '出入库管理', icon: 'form' }
+      }
+    ]
+  },
+  // 仓库管理 - 退货管理
+  {
+    path: '/warehouse/return',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/warehouse/return/index'),
+        name: 'Return',
+        meta: { title: '退货管理', icon: 'edit' }
+      }
+    ]
+  },
+  // 仓库管理 - 成本核算
+  {
+    path: '/warehouse/cost',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/warehouse/cost/index'),
+        name: 'Cost',
+        meta: { title: '成本核算', icon: 'money' }
+      }
+    ]
+  },
+  // 权限管理
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/user',
+    meta: { title: '权限管理', icon: 'lock' },
+    children: [
+      {
+        path: 'user',
+        component: () => import('@/views/system/user/index'),
+        name: 'User',
+        meta: { title: '用户管理', icon: 'user' }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/system/role/index'),
+        name: 'Role',
+        meta: { title: '角色管理', icon: 'peoples' }
+      },
+      {
+        path: 'menu',
+        component: () => import('@/views/system/menu/index'),
+        name: 'Menu',
+        meta: { title: '菜单管理', icon: 'tree-table' }
       }
     ]
   }
@@ -195,7 +262,7 @@ const router = createRouter({
     } else {
       return { top: 0 }
     }
-  },
-});
+  }
+})
 
-export default router;
+export default router

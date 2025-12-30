@@ -8,6 +8,10 @@ import InnerLink from '@/layout/components/InnerLink'
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../../views/**/*.vue')
 
+// ========== 开发模式：跳过后端接口 ==========
+const DEV_SKIP_LOGIN = true; // 设为 false 恢复正常流程
+// ==========================================
+
 const usePermissionStore = defineStore(
   'permission',
   {
@@ -34,6 +38,18 @@ const usePermissionStore = defineStore(
       },
       generateRoutes(roles) {
         return new Promise(resolve => {
+          // 开发模式：跳过后端接口，直接使用本地路由
+          if (DEV_SKIP_LOGIN) {
+            const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
+            asyncRoutes.forEach(route => { router.addRoute(route) })
+            this.setRoutes([])
+            this.setSidebarRouters(constantRoutes)
+            this.setDefaultRoutes([])
+            this.setTopbarRoutes([])
+            resolve([])
+            return
+          }
+
           // 向后端请求路由数据
           getRouters().then(res => {
             const sdata = JSON.parse(JSON.stringify(res.data))
